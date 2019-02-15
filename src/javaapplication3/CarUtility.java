@@ -5,25 +5,49 @@ import java.util.Collections;
 import java.util.HashSet;
 import java.util.Random;
 import java.util.Scanner;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 public class CarUtility {
 
         Scanner sc = new Scanner(System.in);
         ArrayList<Customer> customer =new ArrayList<Customer>();
         int flag;
+        //method to validate customer name
+        public boolean validateCustomerName(String cName) {
+            String regx = "^[a-zA-Z\\s]+$";
+            Pattern pattern = Pattern.compile(regx,Pattern.CASE_INSENSITIVE);
+            Matcher matcher = pattern.matcher(cName);
+            return matcher.find();
+        }
+        //method to validate customer id
+        public boolean validateCustomerId(String cId) {
+            String regex = "[+-]?[0-9][0-9]*";
+            Pattern pattern = Pattern.compile(regex,Pattern.CASE_INSENSITIVE);
+            Matcher matcher = pattern.matcher(cId);
+            return matcher.find();
+        }
         //method to add new customer
         public void  addCustomer(){
             System.out.print("Customer ID: ");
-            final int  cId = Integer.parseInt(sc.nextLine());
+            final String cId=sc.nextLine();
+            if(!validateCustomerId(cId)){
+                System.out.println("Invalid customer ID entered ");
+                return;
+            }
             System.out.print("Customer Name: ");
             final String cName = sc.nextLine();
-            Customer addCustomerDetails =new Customer(cId,cName);
-            //adding customer details to arrayist
-            customer.add(addCustomerDetails);
+            //to check if the entered customer is valid or not
+            if(!validateCustomerName(cName)){
+                System.out.println("Invalid customer name entered ");
+                return;
         }
+            //adding customer details to arrayist
+            Customer addCustomerDetails =new Customer(Integer.parseInt(cId),cName);
+            customer.add(addCustomerDetails);
+        }  
         //method to add car to an existing user
         public void addCar(){
-            
             System.out.print("Enter customer id to add cars :");
             final int id = Integer.parseInt(sc.nextLine());
             for(Customer custing : customer){
