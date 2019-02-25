@@ -28,7 +28,7 @@ public class Customer {
       return cName;  
    }
    /*method to get customer id
-   @return customer id
+   @return customer id1
    */
    public int getId(){
       return cID;
