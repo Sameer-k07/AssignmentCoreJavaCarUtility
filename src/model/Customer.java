@@ -1,23 +1,35 @@
-package javaapplication3;
+package model;
 
+import model.Car;
 import java.util.ArrayList;
 import java.util.Scanner;
+import model.Hyundai;
+import model.Maruti;
+import model.Toyota;
+import util.Validator;
 
 public class Customer {
   private int cID;  
   private String cName;  
   ArrayList<Car> carList=new ArrayList<Car>();  
   Scanner sc = new Scanner(System.in);
-  
-   Customer(int cid,String cname){  
+  /*
+  @param cid-id of customer
+  @param cname-name of customer
+  */
+   public Customer(int cid,String cname){  
       this.cID=cid;  
       this.cName=cname;  
    }  
-   //method to get customer name
+   /*method to get customer name
+   @return customer name
+   */
    public String getcName(){
       return cName;  
    }
-   //method to get customer id
+   /*method to get customer id
+   @return customer id
+   */
    public int getId(){
       return cID;
    }
@@ -36,6 +48,7 @@ public class Customer {
                        +"3. Hyundai\n");
        do{
        choice = Integer.parseInt(sc.nextLine());
+       //to check if the valid choice is entered or not
        if(choice==1 || choice==2 || choice==3 )
        {
            access=false;
@@ -74,7 +87,7 @@ public class Customer {
        car.printCarDetails();
    }//end of foreach loop
 } 
-   
+  //method to print model of car 
   public void printCarModel(){
        for(Car car :carList){
         //method call to print model of car

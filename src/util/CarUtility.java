@@ -1,5 +1,9 @@
-package javaapplication3;
+package util;
 
+import util.Validator;
+import model.Customer;
+import comparator.CustomerNameComparator;
+import comparator.CustomerIdComparator;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashSet;
@@ -8,37 +12,30 @@ import java.util.Scanner;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-public class CarUtility {
+public class CarUtility  {
 
         Scanner sc = new Scanner(System.in);
         ArrayList<Customer> customer =new ArrayList<Customer>();
         int flag;
-        //method to validate customer name
-        public boolean validateCustomerName(String cName) {
-            String regx = "^[a-zA-Z\\s]+$";
-            Pattern pattern = Pattern.compile(regx,Pattern.CASE_INSENSITIVE);
-            Matcher matcher = pattern.matcher(cName);
-            return matcher.find();
-        }
-        //method to validate customer id
-        public boolean validateCustomerId(String cId) {
-            String regex = "[+-]?[0-9][0-9]*";
-            Pattern pattern = Pattern.compile(regex,Pattern.CASE_INSENSITIVE);
-            Matcher matcher = pattern.matcher(cId);
-            return matcher.find();
-        }
+        
         //method to add new customer
         public void  addCustomer(){
             System.out.print("Customer ID: ");
             final String cId=sc.nextLine();
-            if(!validateCustomerId(cId)){
+            //to check if the entered customer id is valid or not
+            if(!Validator.validateCustomerId(cId)){
                 System.out.println("Invalid customer ID entered ");
+                return;
+            }
+            //to check if the customer id is unique or not
+            if(!Validator.isUniqueId(customer,cId)){
+                System.out.println("Please enter unique ID ");
                 return;
             }
             System.out.print("Customer Name: ");
             final String cName = sc.nextLine();
-            //to check if the entered customer is valid or not
-            if(!validateCustomerName(cName)){
+            //to check if the entered customer name is valid or not
+            if(!Validator.validateCustomerName(cName)){
                 System.out.println("Invalid customer name entered ");
                 return;
         }
@@ -50,12 +47,12 @@ public class CarUtility {
         public void addCar(){
             System.out.print("Enter customer id to add cars :");
             final int id = Integer.parseInt(sc.nextLine());
-            for(Customer custing : customer){
+            for(Customer customerCheck : customer){
                 flag=0;
                 //to check if we have existing valid userID
-                if(custing.getId()==id){
+                if(customerCheck.getId()==id){
                    System.out.println("Customer found!");
-                   custing.addNewCar();
+                   customerCheck.addNewCar();
                    System.out.print("Car added successfully ");
                 }
                 else{
@@ -86,9 +83,9 @@ public class CarUtility {
             //using sort function with calling of CustomerIdComparator class 
             Collections.sort(customer,new CustomerIdComparator());
             System.out.println("Sorted list entries on the basis of Id: ");
-            for(Customer e:customer){
-                 System.out.println("Customer Id: "+e.getId()+" Customer Name  "
-                 +e.getcName());
+            for(Customer customerList:customer){
+                 System.out.println("Customer Id: "+customerList.getId()+" "
+                         + "Customer Name  "+customerList.getcName());
             }
         } 
         }
@@ -101,45 +98,16 @@ public class CarUtility {
             //using sort function with calling of CustomerNameComparator class 
             Collections.sort(customer,new CustomerNameComparator());
             System.out.println("Sorted list entries on the basis of name: ");
-            for(Customer e:customer){
-                System.out.println("Customer Name: "+e.getcName());
-                e.printCarModel();
+            for(Customer customerList:customer){
+                System.out.println("Customer Name: "+customerList.getcName());
+                customerList.printCarModel();
                 System.out.println(" ");
             }
         }
         }
         //method to generate prizes randomly
-        public void generatePrize(){
-            //to check if we've atleast 6 customers to generate prize
-            if(customer.size()<6){
-            System.out.println("There are insuffiecient customers."
-                               +"Please add more !");
-            }else{
-            System.out.println("Please enter 3 valid customer id: ");
-            ArrayList<Integer> idCheck = new ArrayList<Integer>();
-            //to generate random number
-            Random rand = new Random();
-            //user input for id's to check if they've won prizes
-            for(int i=0;i<3;i++){
-                //add user input to arraylist
-                idCheck.add(sc.nextInt());
-            }
-            for(int i=0;i<6;i++){
-            //creating random index
-            int randomNumber = rand.nextInt(customer.size());
-            //using random index to fetch random valid id
-            int randomCustomerId = customer.get(randomNumber).getId();
-            //to check if the valid user matches with random valid id generated
-            if(idCheck.contains(randomCustomerId) && idCheck.size()!=0){
-                System.out.print("Customer with id :"+randomCustomerId+" has "
-                + "won\n");
-                idCheck.remove(new Integer(randomCustomerId));
-            }
-            else{
-                System.out.println("OOPS! Better Luck next time...");
-            }
-            }
-        }
+        public void generatePrize() {
+            RandomPrizeGenerator.generatePrize(customer);
         }
        
 }//end of CarUtility Class

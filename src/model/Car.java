@@ -1,4 +1,4 @@
-package javaapplication3;
+package model;
 
 public abstract class Car{
   private int carID;  
@@ -6,7 +6,11 @@ public abstract class Car{
   private int carPrice;
   
    Car(){}
-  
+   /*
+   @param id-carId
+   @param model-carModel
+   @param price-carPrice
+   */
    Car(int id,String model,int price){  
    this.carID=id;  
    this.carModel=model;  

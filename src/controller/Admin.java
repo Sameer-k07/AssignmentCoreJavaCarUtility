@@ -1,10 +1,11 @@
-package javaapplication3;
+package controller;
 
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 import java.util.Scanner;
+import util.CarUtility;
 import static javafx.scene.input.KeyCode.Y;
 
 public class Admin {
@@ -28,25 +29,32 @@ public class Admin {
         System.out.println(" ");
         //menu to call methods according to user preferences
         switch(number){  
-        case 1: //method call to add new customers
+        //method call to add new customers
+        case 1: 
                 carUtility.addCustomer();
                 break;  
-        case 2://method call to add car to an existing user
+        //method call to add car to an existing user
+        case 2:
                 carUtility.addCar();
                 break;
-        case 3://method call to print details of customers
+        //method call to print details of customers
+        case 3:
                 carUtility.printCustomerDetails();
                 break;
-        case 4://method call to list customers based on Id
+        //method call to list customers based on Id
+        case 4:
                 carUtility.listingOnID();
                 break;
-        case 5://method call to sort customers based on names with cars purchased 
+        //method call to sort customers based on names with cars purchased
+        case 5: 
                 carUtility.listingOnName();
                 break;    
-        case 6://method call to generate prizes randomly
+        //method call to generate prizes randomly
+        case 6:
                 carUtility.generatePrize();
                 break;
-        case 7://EXIT 
+        //EXIT        
+        case 7:
                 value = false;
                 break;
         default:
